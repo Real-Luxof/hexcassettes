@@ -1,67 +1,100 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
 
 plugins {
-	id "fabric-loom" version "1.9-SNAPSHOT"
-	id "maven-publish"
-	id "org.jetbrains.kotlin.jvm" version "2.2.21"
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.22' apply false
+    id 'dev.architectury.loom' version '1.17-SNAPSHOT' apply false
+    id 'architectury-plugin' version '3.5-SNAPSHOT'
+    id 'com.gradleup.shadow' version '9.4.3' apply false
 }
 
-version = mod_version
-group = maven_group
-
-base {
-	archivesName = archives_base_name
+architectury {
+    minecraft = project.minecraft_version
 }
 
-repositories {
-    maven { url = "https://maven.blamejared.com/" }
-    maven { url = "https://maven.ladysnake.org/releases" }
-    maven { url = "https://maven.shedaniel.me/" }
-    maven { url = "https://maven.terraformersmc.com/releases" }
-	maven { url = "https://maven.hexxy.media" }
+allprojects {
+    group = rootProject.maven_group
+    version = rootProject.mod_version
 }
 
-dependencies {
-	minecraft "com.mojang:minecraft:$minecraft_version"
-	mappings "net.fabricmc:yarn:$yarn_mappings"
-	modImplementation "net.fabricmc:fabric-loader:$loader_version"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:$fabric_api_version"
-	modImplementation "net.fabricmc:fabric-language-kotlin:$fabric_kotlin_version"
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'dev.architectury.loom'
+    apply plugin: 'architectury-plugin'
+    apply plugin: 'maven-publish'
 
-	modImplementation "miyucomics.hexpose:hexpose:$hexpose_version"
-	modImplementation "me.shedaniel.cloth:cloth-config-fabric:$cloth_config_version"
-	modImplementation("at.petra-k.hexcasting:hexcasting-fabric-$minecraft_version:$hexcasting_version") {
-		exclude module: "phosphor"
-		exclude module: "lithium"
-		exclude module: "emi"
-	}
+    base {
+        // Set up a suffixed format for the mod jar names, e.g. `example-fabric`.
+        archivesName = "$rootProject.archives_name-$project.name"
+    }
 
-	modLocalRuntime "dev.onyxstudios.cardinal-components-api:cardinal-components-api:$cardinal_components_version"
-	modLocalRuntime "com.samsthenerd.inline:inline-fabric:$minecraft_version-$inline_version"
-	modLocalRuntime "vazkii.patchouli:Patchouli:$minecraft_version-$patchouli_version-FABRIC"
-	modLocalRuntime "at.petra-k.paucal:paucal-fabric-$minecraft_version:$paucal_version"
-	modLocalRuntime "io.github.tropheusj:serialization-hooks:0.4.99999"
-}
+    repositories {
+        // Add repositories to retrieve artifacts from in here.
+        // You should only use this when depending on other mods because
+        // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
+        // See https://docs.gradle.org/current/userguide/declaring_repositories.html
+        // for more information about repositories.
+        maven { url "https://maven.shedaniel.me/" }
+        maven {
+            name = "Hexxy's Maven (everyone thank Kyra)"
+            url = "https://maven.hexxy.media/"
+        }
+        maven { url "https://maven.terraformersmc.com/releases/" }
+        maven { url "https://maven.ladysnake.org/releases" }
+        maven { url "https://maven.jamieswhiteshirt.com/libs-release" }
+        maven { url "https://mvn.devos.one/snapshots/" }
+        maven { url "https://maven.architectury.dev/" }
+        maven { url "https://maven.blamejared.com" }
 
-processResources {
-	inputs.property "version", version
-	filesMatching("fabric.mod.json") {
-		expand "version": version
-	}
-}
+        maven {
+            name = 'Kotlin for Forge'
+            url = 'https://thedarkcolour.github.io/KotlinForForge/'
+        }
 
-tasks.withType(JavaCompile).configureEach {
-	it.options.release = 17
-}
+        maven {
+            name = 'C4\'s Maven'
+            url = 'https://maven.theillusivec4.top/'
+        }
+    }
 
-tasks.withType(KotlinCompile).configureEach {
-	kotlinOptions {
-		jvmTarget = "17"
-	}
-}
+    dependencies {
+        minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
+        mappings "net.fabricmc:yarn:$rootProject.yarn_mappings:v2"
+    }
 
-java {
-	withSourcesJar()
-	sourceCompatibility = JavaVersion.VERSION_17
-	targetCompatibility = JavaVersion.VERSION_17
+    java {
+        // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+        // if it is present.
+        // If you remove this line, sources will not be generated.
+        withSourcesJar()
+
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        it.options.release = 17
+    }
+
+    // Configure Maven publishing.
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                artifactId = base.archivesName.get()
+                from components.java
+            }
+        }
+
+        // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+        repositories {
+            // Add repositories to publish to here.
+            // Notice: This block does NOT have the same function as the block in the top level.
+            // The repositories here will be used for publishing your artifact, not for
+            // retrieving dependencies.
+        }
+    }
 }
