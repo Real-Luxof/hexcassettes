@@ -21,7 +21,9 @@ public class HexcassettesSounds {
     public static final Supplier<SoundEvent> CASSETTE_INSERT = register("cassette_insert");
     public static final Supplier<SoundEvent> CASSETTE_LOOP = register("cassette_loop");
 
-    public static void init() {}
+    public static void init() {
+        SOUND_REGISTER.register();
+    }
 
     public static Supplier<SoundEvent> register(String name) {
         Identifier id = id(name);

@@ -4,7 +4,7 @@ import dev.architectury.registry.registries.DeferredRegister;
 
 import java.util.function.Supplier;
 
-import miyucomics.hexcassettes.CassettesItem;
+import miyucomics.hexcassettes.CassetteItem;
 
 import static miyucomics.hexcassettes.Hexcassettes.MOD_ID;
 import static miyucomics.hexcassettes.Hexcassettes.id;
@@ -20,8 +20,10 @@ public class HexcassettesItems {
     );
     public static final Supplier<Item> CASSETTE_ITEM = ITEM_REGISTER.register(
         id("cassette"),
-        CassettesItem::new
+        CassetteItem::new
     );
 
-    public static void init() {}
+    public static void init() {
+        ITEM_REGISTER.register();
+    }
 }
