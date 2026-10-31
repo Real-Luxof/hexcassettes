@@ -1,7 +1,9 @@
 package miyucomics.hexcassettes;
 
+import miyucomics.hexcassettes.inits.HexcassettesActions;
 import miyucomics.hexcassettes.inits.HexcassettesCriterions;
 import miyucomics.hexcassettes.inits.HexcassettesItems;
+import miyucomics.hexcassettes.inits.HexcassettesNetworking;
 import miyucomics.hexcassettes.inits.HexcassettesSounds;
 
 import net.minecraft.util.Identifier;
@@ -14,8 +16,12 @@ public final class Hexcassettes {
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     public static void init() {
-        HexcassettesItems.init();
+        LOGGER.info("Who's there?");
+
+        HexcassettesActions.init();
         HexcassettesCriterions.init();
+        HexcassettesItems.init();
+        HexcassettesNetworking.init();
         HexcassettesSounds.init();
     }
 

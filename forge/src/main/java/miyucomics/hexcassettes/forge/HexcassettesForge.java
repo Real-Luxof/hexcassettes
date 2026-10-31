@@ -2,6 +2,7 @@ package miyucomics.hexcassettes.forge;
 
 import dev.architectury.platform.forge.EventBuses;
 
+import static miyucomics.hexcassettes.Hexcassettes.LOGGER;
 import static miyucomics.hexcassettes.Hexcassettes.MOD_ID;
 import static miyucomics.hexcassettes.Hexcassettes.init;
 
@@ -17,6 +18,8 @@ public final class HexcassettesForge {
         EventBuses.registerModEventBus(MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
 
         // Run our common setup.
+        LOGGER.info("Knock knock...");
         init();
+        LOGGER.info("FORGE!");
     }
 }
