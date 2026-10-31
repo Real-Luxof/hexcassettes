@@ -5,7 +5,8 @@ import miyucomics.hexcassettes.data.CassetteState;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.network.ServerPlayerEntity;
+
+import static miyucomics.hexcassettes.Hexcassettes.LOGGER;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -20,21 +21,14 @@ public class PlayerEntityMixin implements PlayerEntityMinterface {
     @Unique
     private CassetteState cassetteState = new CassetteState();
 
-	@Inject(method = "tick", at = @At("HEAD"))
-	private void runCassettes(CallbackInfo ci) {
-		PlayerEntity player = (PlayerEntity) (Object) this;
-		if (player.getWorld().isClient)
-			return;
-		cassetteState.tick((ServerPlayerEntity) player);
-	}
-
 	@Inject(method = "readCustomDataFromNbt", at = @At("HEAD"))
-	private void readCassetteState(NbtCompound compound, CallbackInfo ci) {
+	private void hexcassettes$readCassetteState(NbtCompound compound, CallbackInfo ci) {
+		LOGGER.info("Reading cassette state!");
 		cassetteState = new CassetteState(compound.getCompound("cassettes"));
 	}
 
 	@Inject(method = "writeCustomDataToNbt", at = @At("HEAD"))
-	private void writeCassetteState(NbtCompound compound, CallbackInfo ci) {
+	private void hexcassettes$writeCassetteState(NbtCompound compound, CallbackInfo ci) {
 		compound.put("cassettes", cassetteState.serialize());
 	}
 

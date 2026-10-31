@@ -1,5 +1,6 @@
 package miyucomics.hexcassettes;
 
+import dev.architectury.event.events.common.TickEvent;
 import dev.architectury.utils.Env;
 import dev.architectury.utils.EnvExecutor;
 
@@ -27,6 +28,12 @@ public final class Hexcassettes {
         HexcassettesNetworking.init();
         HexcassettesSounds.init();
         EnvExecutor.runInEnv(Env.CLIENT, () -> HexcassettesClient::init);
+        
+        TickEvent.SERVER_PRE.register(server -> {
+            server.getPlayerManager().getPlayerList().forEach(
+                sp -> ((PlayerEntityMinterface)sp).getCassetteState().tick(sp)
+            );
+        });
     }
 
     public static Identifier id(String name) {

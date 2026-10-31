@@ -48,7 +48,7 @@ public class CassetteState {
         Set<NbtCompound> activeIndices = hexes.keySet();
         if (!previouslyActiveSlots.equals(activeIndices)) {
             sync(sp);
-            previouslyActiveSlots = activeIndices;
+            previouslyActiveSlots = Set.copyOf(activeIndices);
         }
     }
 
@@ -60,6 +60,7 @@ public class CassetteState {
             NbtCompound entryNbt = new NbtCompound();
             entryNbt.put("key", key);
             entryNbt.put("hex", hex.serialize());
+            hexesNbt.add(entryNbt);
         });
         nbt.put("hexes", hexesNbt);
         return nbt;

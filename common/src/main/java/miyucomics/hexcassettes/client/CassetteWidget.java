@@ -35,7 +35,7 @@ public class CassetteWidget extends ButtonWidget {
 
     @Override
     public void renderButton(DrawContext ctx, int mX, int mY, float delta) {
-        ctx.drawTexture(texture, x, y, 0, 0, width, height);
+        ctx.drawTexture(texture, x, y, 0, 0, width, height, width, height);
         TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
         ctx.drawTextWithShadow(
             textRenderer,
