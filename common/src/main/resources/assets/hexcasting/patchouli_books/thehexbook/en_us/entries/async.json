@@ -19,14 +19,14 @@
 			"op_id": "hexcassettes:enqueue",
 			"anchor": "hexcassettes:enqueue",
 			"input": "list, number",
-			"output": "text",
+			"output": "any",
 			"text": "hexcassettes.page.enqueue.summary.0"
         },
 		{
 			"type": "hexcasting:pattern",
 			"op_id": "hexcassettes:enqueue",
 			"anchor": "hexcassettes:enqueue",
-			"input": "list, number, text",
+			"input": "list, number, any",
 			"output": "",
 			"text": "hexcassettes.page.enqueue.summary.1"
 		},
@@ -71,14 +71,14 @@
 			"op_id": "hexcassettes:busy",
 			"anchor": "hexcassettes:busy",
 			"input": "",
-			"output": "list of text iotas",
+			"output": "list of iotas",
 			"text": "hexcassettes.page.busy.summary"
 		},
 		{
 			"type": "hexcasting:pattern",
 			"op_id": "hexcassettes:inspect",
 			"anchor": "hexcassettes:inspect",
-			"input": "player, text",
+			"input": "player, any",
 			"output": "boolean",
 			"text": "hexcassettes.page.inspect.summary"
 		},
@@ -86,7 +86,7 @@
 			"type": "hexcasting:pattern",
 			"op_id": "hexcassettes:foretell",
 			"anchor": "hexcassettes:foretell",
-			"input": "text",
+			"input": "any",
 			"output": "null/number",
 			"text": "hexcassettes.page.foretell.summary"
 		},
@@ -95,7 +95,7 @@
 			"op_id": "hexcassettes:self",
 			"anchor": "hexcassettes:self",
 			"input": "",
-			"output": "null/text",
+			"output": "null/any",
 			"text": "hexcassettes.page.self.summary"
 		}
 	]
