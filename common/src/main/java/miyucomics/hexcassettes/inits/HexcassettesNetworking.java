@@ -1,13 +1,12 @@
 package miyucomics.hexcassettes.inits;
 
+import dev.architectury.event.events.common.PlayerEvent;
+import dev.architectury.networking.NetworkChannel;
+import dev.architectury.networking.NetworkManager.PacketContext;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
-
-import dev.architectury.networking.NetworkChannel;
-import dev.architectury.networking.NetworkManager.PacketContext;
-import dev.architectury.utils.Env;
-import dev.architectury.utils.EnvExecutor;
 
 import miyucomics.hexcassettes.PlayerEntityMinterface;
 import miyucomics.hexcassettes.client.ClientStorage;
@@ -17,7 +16,6 @@ import static miyucomics.hexcassettes.Hexcassettes.id;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.network.ServerPlayerEntity;
 
 public class HexcassettesNetworking {
     public static class CassetteRemovalPacket {
@@ -39,46 +37,36 @@ public class HexcassettesNetworking {
             );
         }
     }
-    public static class SyncCassettesPacket {
-        protected int owned = 0;
-        protected List<NbtCompound> cassettes = List.of();
+    public static class SyncCassettesS2CPacket {
+        protected final int owned;
+        protected final List<NbtCompound> cassettes;
 
-        public SyncCassettesPacket(int owned, List<NbtCompound> cassettes) {
+        public SyncCassettesS2CPacket(int owned, List<NbtCompound> cassettes) {
             this.owned = owned;
             this.cassettes = cassettes;
         }
 
-        // am i doing this weirdly?
-        protected SyncCassettesPacket(PacketByteBuf buf) {
-            EnvExecutor.runInEnv(Env.CLIENT, () -> () -> {
-                this.owned = buf.readInt();
-                int count = buf.readInt();
-                this.cassettes = new ArrayList<>();
-                for (int i = 0; i < count; i++) {
-                    cassettes.add(buf.readNbt());
-                }
-            });
+        protected SyncCassettesS2CPacket(PacketByteBuf buf) {
+            this.owned = buf.readInt();
+            int count = buf.readInt();
+            this.cassettes = new ArrayList<>();
+            for (int i = 0; i < count; i++) {
+                cassettes.add(buf.readNbt());
+            }
         }
-        protected static void encode(SyncCassettesPacket packet, PacketByteBuf buf) {
-            EnvExecutor.runInEnv(Env.SERVER, () -> () -> {
-                buf.writeInt(packet.owned);
-                buf.writeInt(packet.cassettes.size());
-                packet.cassettes.forEach(buf::writeNbt);
-            });
+        protected static void encode(SyncCassettesS2CPacket packet, PacketByteBuf buf) {
+            buf.writeInt(packet.owned);
+            buf.writeInt(packet.cassettes.size());
+            packet.cassettes.forEach(buf::writeNbt);
         }
-        protected static void handle(SyncCassettesPacket packet, Supplier<PacketContext> ctx) {
-            EnvExecutor.runInEnv(Env.CLIENT, () -> () -> {
-                MinecraftClient.getInstance().execute(() -> {
-                    ClientStorage.ownedCassettes = packet.owned;
-                    ClientStorage.activeCassettes = packet.cassettes;
-                });
-            });
-            EnvExecutor.runInEnv(Env.SERVER, () -> () -> {
-                ServerPlayerEntity p = (ServerPlayerEntity)ctx.get().getPlayer();
-                ((PlayerEntityMinterface)p).getCassetteState().sync(p);
+        protected static void handle(SyncCassettesS2CPacket packet, Supplier<PacketContext> ctx) {
+            MinecraftClient.getInstance().execute(() -> {
+                ClientStorage.ownedCassettes = packet.owned;
+                ClientStorage.activeCassettes = packet.cassettes;
             });
         }
     }
+
     public static final NetworkChannel CASSETTE_REMOVE = NetworkChannel.create(id("cassette_remove"));
     public static final NetworkChannel SYNC_CASSETTES = NetworkChannel.create(id("sync_cassettes"));
 
@@ -90,10 +78,14 @@ public class HexcassettesNetworking {
             CassetteRemovalPacket::handle
         );
         SYNC_CASSETTES.register(
-            SyncCassettesPacket.class,
-            SyncCassettesPacket::encode,
-            SyncCassettesPacket::new,
-            SyncCassettesPacket::handle
+            SyncCassettesS2CPacket.class,
+            SyncCassettesS2CPacket::encode,
+            SyncCassettesS2CPacket::new,
+            SyncCassettesS2CPacket::handle
         );
+        // why does the client request a sync in Miyu's original code, anyway?
+        PlayerEvent.PLAYER_JOIN.register(sp -> {
+            ((PlayerEntityMinterface)sp).getCassetteState().sync(sp);
+        });
     }
 }

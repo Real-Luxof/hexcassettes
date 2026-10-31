@@ -14,8 +14,8 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Rarity;
 import net.minecraft.world.World;
 
-public class CassettesItem extends Item {
-    public CassettesItem() {
+public class CassetteItem extends Item {
+    public CassetteItem() {
         super(
             new Item.Settings()
                 .maxCount(1)

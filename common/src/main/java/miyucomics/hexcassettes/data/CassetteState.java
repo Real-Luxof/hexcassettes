@@ -28,7 +28,7 @@ public class CassetteState {
     public void sync(ServerPlayerEntity sp) {
         HexcassettesNetworking.SYNC_CASSETTES.sendToPlayer(
             sp,
-            new HexcassettesNetworking.SyncCassettesPacket(owned, List.copyOf(hexes.keySet()))
+            new HexcassettesNetworking.SyncCassettesS2CPacket(owned, List.copyOf(hexes.keySet()))
         );
     }
 

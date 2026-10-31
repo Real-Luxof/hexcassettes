@@ -1,5 +1,8 @@
 package miyucomics.hexcassettes;
 
+import dev.architectury.utils.Env;
+import dev.architectury.utils.EnvExecutor;
+
 import miyucomics.hexcassettes.inits.HexcassettesActions;
 import miyucomics.hexcassettes.inits.HexcassettesCriterions;
 import miyucomics.hexcassettes.inits.HexcassettesItems;
@@ -23,6 +26,7 @@ public final class Hexcassettes {
         HexcassettesItems.init();
         HexcassettesNetworking.init();
         HexcassettesSounds.init();
+        EnvExecutor.runInEnv(Env.CLIENT, () -> HexcassettesClient::init);
     }
 
     public static Identifier id(String name) {
