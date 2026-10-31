@@ -6,4 +6,6 @@ forge/build/
 common/bin/
 fabric/bin/
 forge/bin/
+fabric/run/
+forge/run/
 gradle/

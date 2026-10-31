@@ -1,17 +1,14 @@
 package miyucomics.hexcassettes.data;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 import miyucomics.hexcassettes.inits.HexcassettesNetworking;
 
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 public class CassetteState {
@@ -29,12 +26,10 @@ public class CassetteState {
     }
 
     public void sync(ServerPlayerEntity sp) {
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeInt(owned);
-        Set<NbtCompound> keys = hexes.keySet();
-        buf.writeInt(keys.size());
-        keys.forEach(buf::writeNbt);
-        ServerPlayNetworking.send(sp, HexcassettesNetworking.SYNC_CASSETTES, buf);
+        HexcassettesNetworking.SYNC_CASSETTES.sendToPlayer(
+            sp,
+            new HexcassettesNetworking.SyncCassettesPacket(owned, List.copyOf(hexes.keySet()))
+        );
     }
 
     public void tick(ServerPlayerEntity sp) {

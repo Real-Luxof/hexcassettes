@@ -4,10 +4,11 @@ import at.petrak.hexcasting.api.casting.eval.vm.CastingVM;
 import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.api.casting.iota.IotaType;
 import at.petrak.hexcasting.api.casting.iota.ListIota;
-import miyucomics.hexcassettes.casting.env.CassetteCastEnv;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import miyucomics.hexcassettes.casting.env.CassetteCastEnv;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;

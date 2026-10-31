@@ -7,16 +7,12 @@ import miyucomics.hexcassettes.inits.HexcassettesSounds;
 
 import static miyucomics.hexcassettes.Hexcassettes.id;
 
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.sound.SoundManager;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -62,9 +58,9 @@ public class CassetteWidget extends ButtonWidget {
     @Override
     public void onPress() {
         if (!isActive()) return;
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeNbt(ClientStorage.activeCassettes.get(index));
-        ClientPlayNetworking.send(HexcassettesNetworking.CASSETTE_REMOVE, buf);
+        HexcassettesNetworking.CASSETTE_REMOVE.sendToServer(
+            new HexcassettesNetworking.CassetteRemovalPacket(ClientStorage.activeCassettes.get(index))
+        );
     }
 
     public boolean isActive() { return index < ClientStorage.activeCassettes.size(); }

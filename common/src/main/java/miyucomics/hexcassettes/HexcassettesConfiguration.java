@@ -1,5 +1,4 @@
 package miyucomics.hexcassettes;
-import java.nio.file.Path;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -8,6 +7,7 @@ import dev.architectury.platform.Platform;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static miyucomics.hexcassettes.Hexcassettes.LOGGER;
 
