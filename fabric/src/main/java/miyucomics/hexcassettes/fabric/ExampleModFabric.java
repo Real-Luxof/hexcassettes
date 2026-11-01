@@ -2,7 +2,7 @@ package miyucomics.hexcassettes.fabric;
 
 import net.fabricmc.api.ModInitializer;
 
-import miyucomics.hexcassettes.Hexcassettes;
+import miyucomics.hexcassettes.ExampleMod;
 
 public final class ExampleModFabric implements ModInitializer {
     @Override
@@ -12,6 +12,6 @@ public final class ExampleModFabric implements ModInitializer {
         // Proceed with mild caution.
 
         // Run our common setup.
-        Hexcassettes.init();
+        ExampleMod.init();
     }
 }

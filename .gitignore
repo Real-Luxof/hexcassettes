@@ -2,10 +2,13 @@
 build
 common/build/
 fabric/build/
-forge/build/
+neoforge/build/
 common/bin/
 fabric/bin/
-forge/bin/
+neoforge/bin/
+fabric/libs/
+neoforge/libs/
+common/libs/
 fabric/run/
-forge/run/
+neoforge/run/
 gradle/

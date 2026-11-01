@@ -12,12 +12,10 @@ dependencies {
     modImplementation "dev.architectury:architectury:$rootProject.architectury_api_version"
 
 	compileOnly("org.jetbrains.kotlin:kotlin-stdlib:1.9.22")
-	modImplementation("at.petra-k.hexcasting:hexcasting-fabric-$minecraft_version:$hexcasting") {
-		exclude module: "phosphor"
-		exclude module: "lithium"
-		exclude module: "emi"
-	}
+    // these files were obtained from the Hex Casting 1.21 pre-release,
+    // discoverable on the Hex Casting Discord.
+    modImplementation files("libs/hexcasting-fabric-1.21.1-0.12.0-devel-pre-65.jar")
+    modImplementation files("libs/paucal-0.7.1-pre-27+1.21.1-fabric.jar")
 	modImplementation("vazkii.patchouli:Patchouli:$minecraft_version-$patchouli-FABRIC-SNAPSHOT")
-	modImplementation("at.petra-k.paucal:paucal-fabric-$minecraft_version:$paucal")
 	modImplementation("com.samsthenerd.inline:inline-fabric:$minecraft_version-$inline")
 }
