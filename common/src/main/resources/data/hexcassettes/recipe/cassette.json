@@ -5,11 +5,14 @@
 			"item": "hexcasting:charged_amethyst"
 		},
 		"D": {
-			"tag": "minecraft:music_discs"
+			"items": "#minecraft:creative_slot/tools", 
+			"components": {
+				"minecraft:jukebox_playable": {}
+			}
 		}
 	},
 	"pattern": [" A ", "ADA", " A "],
 	"result": {
-		"item": "hexcassettes:cassette"
+		"id": "hexcassettes:cassette"
 	}
 }

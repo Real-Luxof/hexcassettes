@@ -16,7 +16,7 @@
 		"frame": "goal",
 		"hidden": false,
 		"icon": {
-			"item": "hexcassettes:cassette"
+			"id": "hexcassettes:cassette"
 		},
 		"show_toast": true
 	},

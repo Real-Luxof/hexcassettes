@@ -16,7 +16,7 @@
 		"frame": "challenge",
 		"hidden": false,
 		"icon": {
-			"item": "minecraft:clock"
+			"id": "minecraft:clock"
 		},
 		"show_toast": true
 	},
