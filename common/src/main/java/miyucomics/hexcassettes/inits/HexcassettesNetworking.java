@@ -7,6 +7,8 @@ import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.networking.NetworkManager.PacketContext;
 import dev.architectury.networking.NetworkManager.Side;
+import dev.architectury.utils.Env;
+import dev.architectury.utils.EnvExecutor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,10 +86,10 @@ public class HexcassettesNetworking {
             CassetteRemovalC2SPayload.CODEC,
             CassetteRemovalC2SPayload::handle
         );
-        NetworkManager.registerS2CPayloadType(
+        EnvExecutor.runInEnv(Env.SERVER, () -> () -> NetworkManager.registerS2CPayloadType(
             SyncCassettesS2CPacket.ID,
             SyncCassettesS2CPacket.CODEC
-        );
+        ));
         // why does the client request a sync in Miyu's original code, anyway?
         PlayerEvent.PLAYER_JOIN.register(sp -> {
             ((PlayerEntityMinterface)sp).getCassetteState().sync(sp);
