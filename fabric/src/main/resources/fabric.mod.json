@@ -3,23 +3,24 @@
   "id": "hexcassettes",
   "version": "${version}",
   "name": "Hexcassettes",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "An addon for all your daemon and delaying needs!",
   "authors": [
-    "Me!"
+    "miyucomics",
+    "Luxof"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/miyucomics/hexcassettes",
+    "sources": "https://github.com/miyucomics/hexcassettes"
   },
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/hexcassettes/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "miyucomics.hexcassettes.fabric.ExampleModFabric"
+      "miyucomics.hexcassettes.fabric.HexcassettesFabric"
     ],
     "client": [
-      "miyucomics.hexcassettes.fabric.client.ExampleModFabricClient"
+      "miyucomics.hexcassettes.fabric.client.HexcassettesFabricClient"
     ]
   },
   "mixins": [
@@ -30,9 +31,7 @@
     "minecraft": "~1.21.1",
     "java": ">=21",
     "architectury": ">=13.0.11",
-    "fabric-api": "*"
-  },
-  "suggests": {
-    "another-mod": "*"
+    "fabric-api": "*",
+    "hexcasting": ">=0.12.0"
   }
 }
