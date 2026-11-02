@@ -9,7 +9,7 @@ version = "${version}"
 displayName = "Hexcassettes"
 authors = "Me!"
 description = '''
-This is an example description! Tell everyone what your mod is about!
+An addon for all your daemon and delaying needs!
 '''
 #logoFile = ""
 
@@ -31,6 +31,13 @@ side = "BOTH"
 modId = "architectury"
 type = "required"
 versionRange = "[13.0.11,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.hexcassettes]]
+modId = "hexcasting"
+type = "required"
+versionRange = "[0.12.0,)"
 ordering = "AFTER"
 side = "BOTH"
 

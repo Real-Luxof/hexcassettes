@@ -1,8 +1,8 @@
 package miyucomics.hexcassettes;
 
 import dev.architectury.event.events.common.TickEvent;
-import dev.architectury.utils.Env;
-import dev.architectury.utils.EnvExecutor;
+//import dev.architectury.utils.Env;
+//import dev.architectury.utils.EnvExecutor;
 
 import miyucomics.hexcassettes.inits.HexcassettesActions;
 import miyucomics.hexcassettes.inits.HexcassettesCriterions;
@@ -27,7 +27,8 @@ public final class Hexcassettes {
         HexcassettesItems.init();
         HexcassettesNetworking.init();
         HexcassettesSounds.init();
-        EnvExecutor.runInEnv(Env.CLIENT, () -> HexcassettesClient::init);
+        // should be ran on the platform's side i think
+        //EnvExecutor.runInEnv(Env.CLIENT, () -> HexcassettesClient::init);
         
         TickEvent.SERVER_PRE.register(server -> {
             server.getPlayerManager().getPlayerList().forEach(
