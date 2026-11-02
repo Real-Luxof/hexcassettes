@@ -40,8 +40,13 @@ dependencies {
     // discoverable on the Hex Casting Discord.
     modImplementation files("libs/hexcasting-fabric-1.21.1-0.12.0-devel-pre-65.jar")
     modImplementation files("libs/paucal-0.7.1-pre-27+1.21.1-fabric.jar")
+    implementation("net.fabricmc:fabric-language-kotlin:$fabric_language_kotlin")
 	modImplementation("vazkii.patchouli:Patchouli:$minecraft_version-$patchouli-FABRIC-SNAPSHOT")
 	modImplementation("com.samsthenerd.inline:inline-fabric:$minecraft_version-$inline")
+	modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-base:$cardinal_components"
+	modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-entity:$cardinal_components"
+	modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-item:$cardinal_components"
+	modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-block:$cardinal_components"
 }
 
 processResources {
