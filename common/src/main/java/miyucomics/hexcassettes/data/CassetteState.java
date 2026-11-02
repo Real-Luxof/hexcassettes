@@ -5,9 +5,9 @@ import at.petrak.hexcasting.api.casting.iota.IotaType;
 
 import dev.architectury.networking.NetworkManager;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import miyucomics.hexcassettes.inits.HexcassettesNetworking;
 
@@ -19,7 +19,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 
 public class CassetteState {
     public int owned = 0;
-    public HashMap<Iota, QueuedHex> hexes = new HashMap<>();
+    // (treats the symptom instead of the disease) :clueless:
+    public ConcurrentHashMap<Iota, QueuedHex> hexes = new ConcurrentHashMap<>();
     private Set<Iota> previouslyActiveSlots = Set.of();
 
     public CassetteState() {}

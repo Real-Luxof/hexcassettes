@@ -41,9 +41,9 @@ public class HexcassettesNetworking {
         @Override public Id<? extends CustomPayload> getId() { return ID; }
 
         public static void handle(CassetteRemovalC2SPayload value, PacketContext ctx) {
-            ((PlayerEntityMinterface)ctx.getPlayer()).getCassetteState().hexes.remove(
+            ctx.queue(() -> ((PlayerEntityMinterface)ctx.getPlayer()).getCassetteState().hexes.remove(
                 value.cassetteKey()
-            );
+            ));
         }
     }
     public static record SyncCassettesS2CPacket(int owned, List<Iota> cassettes) implements CustomPayload {
