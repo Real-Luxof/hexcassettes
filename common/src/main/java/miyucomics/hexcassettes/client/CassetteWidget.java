@@ -1,6 +1,6 @@
 package miyucomics.hexcassettes.client;
 
-import at.petrak.hexcasting.api.casting.iota.IotaType;
+import dev.architectury.networking.NetworkManager;
 
 import miyucomics.hexcassettes.inits.HexcassettesNetworking;
 import miyucomics.hexcassettes.inits.HexcassettesSounds;
@@ -13,7 +13,6 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.sound.SoundManager;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -60,8 +59,10 @@ public class CassetteWidget extends ButtonWidget {
     @Override
     public void onPress() {
         if (!isActive()) return;
-        HexcassettesNetworking.CASSETTE_REMOVE.sendToServer(
-            new HexcassettesNetworking.CassetteRemovalPacket(ClientStorage.activeCassettes.get(index))
+        NetworkManager.sendToServer(
+            new HexcassettesNetworking.CassetteRemovalC2SPayload(
+                ClientStorage.activeCassettes.get(index)
+            )
         );
     }
 

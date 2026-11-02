@@ -19,7 +19,7 @@ public class CassetteCastEnv extends PlayerBasedCastEnv {
         this.key = key;
         this.depth = depth;
         if (depth >= 9)
-            HexcassettesCriterions.QUINE_CRITERION.trigger(sp);
+            HexcassettesCriterions.QUINE_CRITERION.get().trigger(sp);
     }
     public CassetteCastEnv(ServerPlayerEntity sp, Hand castingHand, Iota key) {
         this(sp, castingHand, key, 0);

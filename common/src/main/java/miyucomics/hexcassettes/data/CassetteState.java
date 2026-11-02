@@ -1,15 +1,20 @@
 package miyucomics.hexcassettes.data;
 
+import at.petrak.hexcasting.api.casting.iota.Iota;
+import at.petrak.hexcasting.api.casting.iota.IotaType;
+
+import dev.architectury.networking.NetworkManager;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import at.petrak.hexcasting.api.casting.iota.Iota;
 import miyucomics.hexcassettes.inits.HexcassettesNetworking;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 public class CassetteState {
@@ -22,12 +27,15 @@ public class CassetteState {
         owned = serialized.getInt("owned");
         serialized.getList("hexes", NbtElement.COMPOUND_TYPE).forEach(ele -> {
             NbtCompound nbt = (NbtCompound)ele;
-            hexes.put(nbt.getCompound("key"), new QueuedHex(nbt.getCompound("hex")));
+            hexes.put(
+                IotaType.TYPED_CODEC.decode(NbtOps.INSTANCE, nbt.get("hex")).getOrThrow().getFirst(),
+                new QueuedHex(nbt.getCompound("hex"))
+            );
         });
     }
 
     public void sync(ServerPlayerEntity sp) {
-        HexcassettesNetworking.SYNC_CASSETTES.sendToPlayer(
+        NetworkManager.sendToPlayer(
             sp,
             new HexcassettesNetworking.SyncCassettesS2CPacket(owned, List.copyOf(hexes.keySet()))
         );
@@ -59,7 +67,10 @@ public class CassetteState {
         NbtList hexesNbt = new NbtList();
         hexes.forEach((key, hex) -> {
             NbtCompound entryNbt = new NbtCompound();
-            entryNbt.put("key", key);
+            entryNbt.put(
+                "key",
+                IotaType.TYPED_CODEC.encode(key, NbtOps.INSTANCE, new NbtCompound()).getOrThrow()
+            );
             entryNbt.put("hex", hex.serialize());
             hexesNbt.add(entryNbt);
         });

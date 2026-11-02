@@ -5,11 +5,11 @@ import at.petrak.hexcasting.api.casting.castables.Action;
 import at.petrak.hexcasting.api.casting.math.HexDir;
 import at.petrak.hexcasting.api.casting.math.HexPattern;
 
-import miyucomics.hexcassettes.casting.actions.*;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
+
+import miyucomics.hexcassettes.casting.actions.*;
 
 public class HexcassettesActions {
 
@@ -35,7 +35,7 @@ public class HexcassettesActions {
     private static void register(String name, String signature, HexDir startDir, Action action) {
         ACTIONS_REGISTRY.put(
             name,
-            new ActionRegistryEntry(HexPattern.fromAngles(signature, startDir), action)
+            new ActionRegistryEntry(HexPattern.fromAngleString(signature, startDir), action)
         );
     }
 }

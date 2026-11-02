@@ -3,6 +3,7 @@ package miyucomics.hexcassettes;
 import dev.architectury.event.events.client.ClientTickEvent;
 
 import miyucomics.hexcassettes.client.CassetteScreen;
+import miyucomics.hexcassettes.inits.HexcassettesNetworking;
 
 import net.minecraft.client.option.KeyBinding;
 
@@ -17,6 +18,7 @@ public class HexcassettesClient {
     );
 
     public static void init() {
+        HexcassettesNetworking.clientInit();
         ClientTickEvent.CLIENT_POST.register(minecraft -> {
             if (CASSETTE_KEYBIND.wasPressed() && minecraft.currentScreen == null)
                 minecraft.setScreen(new CassetteScreen());

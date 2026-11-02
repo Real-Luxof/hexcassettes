@@ -47,10 +47,10 @@ public class CassetteItem extends Item {
         CassetteState cassetteData = ((PlayerEntityMinterface)sp).getCassetteState();
 
         if (cassetteData.owned < maxCassettes) {
-            HexcassettesCriterions.TAPE_WORM_CRITERION.trigger(sp);
+            HexcassettesCriterions.TAPE_WORM_CRITERION.get().trigger(sp);
             cassetteData.owned += 1;
             if (cassetteData.owned == maxCassettes)
-                HexcassettesCriterions.FULL_ARSENAL_CRITERION.trigger(sp);
+                HexcassettesCriterions.FULL_ARSENAL_CRITERION.get().trigger(sp);
             cassetteData.sync(sp);
         }
 
