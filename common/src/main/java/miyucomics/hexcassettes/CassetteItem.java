@@ -4,8 +4,8 @@ import miyucomics.hexcassettes.data.CassetteState;
 import miyucomics.hexcassettes.inits.HexcassettesCriterions;
 import miyucomics.hexcassettes.inits.HexcassettesSounds;
 
+import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -24,7 +24,7 @@ public class CassetteItem extends Item {
         );
     }
     
-    @Override public int getMaxUseTime(ItemStack stack) { return 100; }
+    @Override public int getMaxUseTime(ItemStack stack, LivingEntity user) { return 100; }
     @Override public SoundEvent getEatSound() { return HexcassettesSounds.CASSETTE_LOOP.get(); }
 
     @Override

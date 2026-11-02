@@ -13,6 +13,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.sound.SoundManager;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -34,12 +35,13 @@ public class CassetteWidget extends ButtonWidget {
     }
 
     @Override
-    public void renderButton(DrawContext ctx, int mX, int mY, float delta) {
+    public void renderWidget(DrawContext ctx, int mX, int mY, float delta) {
+        super.renderWidget(ctx, mX, mY, delta);
         ctx.drawTexture(texture, x, y, 0, 0, width, height, width, height);
         TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
         ctx.drawTextWithShadow(
             textRenderer,
-            isActive() ? IotaType.getDisplay(ClientStorage.activeCassettes.get(index)) : freeText,
+            isActive() ? ClientStorage.activeCassettes.get(index).display() : freeText,
             x + width,
             y + textRenderer.fontHeight / 2,
             -1

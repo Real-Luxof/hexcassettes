@@ -1,10 +1,10 @@
 package miyucomics.hexcassettes.client;
 
-import java.util.List;
+import at.petrak.hexcasting.api.casting.iota.Iota;
 
-import net.minecraft.nbt.NbtCompound;
+import java.util.List;
 
 public class ClientStorage {
     public static int ownedCassettes = 0;
-    public static List<NbtCompound> activeCassettes = List.of();
+    public static List<Iota> activeCassettes = List.of();
 }

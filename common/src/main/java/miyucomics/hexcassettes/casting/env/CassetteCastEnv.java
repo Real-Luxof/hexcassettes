@@ -2,25 +2,26 @@ package miyucomics.hexcassettes.casting.env;
 
 import at.petrak.hexcasting.api.casting.ParticleSpray;
 import at.petrak.hexcasting.api.casting.eval.env.PlayerBasedCastEnv;
+import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.api.pigment.FrozenPigment;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 
 import miyucomics.hexcassettes.inits.HexcassettesCriterions;
-import net.minecraft.nbt.NbtCompound;
+
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 
 public class CassetteCastEnv extends PlayerBasedCastEnv {
-    public final NbtCompound key;
+    public final Iota key;
     public final int depth;
-    public CassetteCastEnv(ServerPlayerEntity sp, Hand castingHand, NbtCompound key, int depth) {
+    public CassetteCastEnv(ServerPlayerEntity sp, Hand castingHand, Iota key, int depth) {
         super(sp, castingHand);
         this.key = key;
         this.depth = depth;
         if (depth >= 9)
             HexcassettesCriterions.QUINE_CRITERION.trigger(sp);
     }
-    public CassetteCastEnv(ServerPlayerEntity sp, Hand castingHand, NbtCompound key) {
+    public CassetteCastEnv(ServerPlayerEntity sp, Hand castingHand, Iota key) {
         this(sp, castingHand, key, 0);
     }
 

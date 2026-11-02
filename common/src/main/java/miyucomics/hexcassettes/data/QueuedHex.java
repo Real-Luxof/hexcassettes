@@ -11,38 +11,37 @@ import java.util.List;
 import miyucomics.hexcassettes.casting.env.CassetteCastEnv;
 
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 
-public record QueuedHex(NbtCompound hex, int delay, int depth) {
-    public QueuedHex(NbtCompound hex, int delay) {
+public record QueuedHex(ListIota hex, int delay, int depth) {
+    public QueuedHex(ListIota hex, int delay) {
         this(hex, delay, 10);
     }
     public QueuedHex(NbtCompound serialized) {
-        this(serialized.getCompound("hex"), serialized.getInt("delay"), serialized.getInt("depth"));
+        this(
+            (ListIota)IotaType.TYPED_CODEC.decode(NbtOps.INSTANCE, serialized.get("hex")).getOrThrow().getFirst(),
+            serialized.getInt("delay"),
+            serialized.getInt("depth")
+        );
     }
 
     public NbtCompound serialize() {
         NbtCompound nbt = new NbtCompound();
-        nbt.put("hex", hex);
+        nbt.put("hex", IotaType.TYPED_CODEC.encode(hex, NbtOps.INSTANCE, new NbtCompound()).getOrThrow());
         nbt.putInt("delay", delay);
         nbt.putInt("depth", depth);
         return nbt;
     }
 
-    public void cast(ServerPlayerEntity sp, NbtCompound key) {
+    public void cast(ServerPlayerEntity sp, Iota key) {
         Hand castingHand = !sp.getMainHandStack().isEmpty() && sp.getOffHandStack().isEmpty()
             ? Hand.OFF_HAND : Hand.MAIN_HAND;
         CastingVM vm = CastingVM.empty(new CassetteCastEnv(sp, castingHand, key, depth));
-        Iota hexIota = IotaType.deserialize(hex, sp.getServerWorld());
-
-        // What happens if it's not a list? Can it ever not be a list?
-        // I think it should crash if someone screws ABI that bad, honestly. Less mysterious that
-        // way.
-        if (!(hexIota instanceof ListIota hexListIota)) return;
 
         List<Iota> hexList = new ArrayList<>();
-        hexListIota.getList().forEach(hexList::add);
+        hex.getList().forEach(hexList::add);
 
         vm.queueExecuteAndWrapIotas(hexList, sp.getServerWorld());
     }

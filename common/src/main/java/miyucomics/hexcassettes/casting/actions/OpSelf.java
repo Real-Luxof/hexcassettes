@@ -3,7 +3,6 @@ package miyucomics.hexcassettes.casting.actions;
 import at.petrak.hexcasting.api.casting.castables.ConstMediaAction;
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment;
 import at.petrak.hexcasting.api.casting.iota.Iota;
-import at.petrak.hexcasting.api.casting.iota.IotaType;
 import at.petrak.hexcasting.api.casting.iota.NullIota;
 import at.petrak.hexcasting.api.casting.mishaps.Mishap;
 
@@ -17,7 +16,7 @@ public class OpSelf implements ConstMediaAction {
     @Override
     public List<Iota> execute(List<? extends Iota> args, CastingEnvironment env) throws Mishap {
         return List.of(env instanceof CassetteCastEnv cce
-            ? IotaType.deserialize(cce.key, cce.getWorld())
+            ? cce.key
             : new NullIota()
         );
     }

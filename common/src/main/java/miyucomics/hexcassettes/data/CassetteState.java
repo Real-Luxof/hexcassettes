@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import at.petrak.hexcasting.api.casting.iota.Iota;
 import miyucomics.hexcassettes.inits.HexcassettesNetworking;
 
 import net.minecraft.nbt.NbtCompound;
@@ -13,8 +14,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 
 public class CassetteState {
     public int owned = 0;
-    public HashMap<NbtCompound, QueuedHex> hexes = new HashMap<>();
-    private Set<NbtCompound> previouslyActiveSlots = Set.of();
+    public HashMap<Iota, QueuedHex> hexes = new HashMap<>();
+    private Set<Iota> previouslyActiveSlots = Set.of();
 
     public CassetteState() {}
     public CassetteState(NbtCompound serialized) {
@@ -45,7 +46,7 @@ public class CassetteState {
             }
         );
 
-        Set<NbtCompound> activeIndices = hexes.keySet();
+        Set<Iota> activeIndices = hexes.keySet();
         if (!previouslyActiveSlots.equals(activeIndices)) {
             sync(sp);
             previouslyActiveSlots = Set.copyOf(activeIndices);

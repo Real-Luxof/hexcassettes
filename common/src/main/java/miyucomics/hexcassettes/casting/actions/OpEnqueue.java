@@ -7,7 +7,6 @@ import at.petrak.hexcasting.api.casting.eval.vm.CastingImage;
 import at.petrak.hexcasting.api.casting.eval.vm.SpellContinuation;
 import at.petrak.hexcasting.api.casting.iota.DoubleIota;
 import at.petrak.hexcasting.api.casting.iota.Iota;
-import at.petrak.hexcasting.api.casting.iota.IotaType;
 import at.petrak.hexcasting.api.casting.iota.ListIota;
 import at.petrak.hexcasting.api.casting.iota.PatternIota;
 import at.petrak.hexcasting.api.casting.math.EulerPathFinder;
@@ -17,6 +16,7 @@ import at.petrak.hexcasting.api.casting.mishaps.Mishap;
 import at.petrak.hexcasting.api.casting.mishaps.MishapBadCaster;
 import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota;
 import at.petrak.hexcasting.api.casting.mishaps.MishapNotEnoughArgs;
+import at.petrak.hexcasting.api.utils.TreeList;
 import at.petrak.hexcasting.common.lib.hex.HexEvalSounds;
 
 import java.util.List;
@@ -27,8 +27,6 @@ import miyucomics.hexcassettes.casting.env.CassetteCastEnv;
 import miyucomics.hexcassettes.casting.mishaps.NoFreeCassettes;
 import miyucomics.hexcassettes.data.CassetteState;
 import miyucomics.hexcassettes.data.QueuedHex;
-
-import net.minecraft.nbt.NbtCompound;
 
 public class OpEnqueue implements Action {
     @Override
@@ -49,8 +47,7 @@ public class OpEnqueue implements Action {
         if (stack.size() < 2)
             throw new MishapNotEnoughArgs(2, stack.size());
 
-        Iota keyIota = getKeyIota(stack, env.getWorld().getTime());
-        NbtCompound key = IotaType.serialize(keyIota);
+        Iota key = getKeyIota(stack, env.getWorld().getTime());
 
         Iota potentialDelay = stack.pop();
         if (
@@ -77,24 +74,29 @@ public class OpEnqueue implements Action {
         
         cassetteState.hexes.put(
             key,
-            new QueuedHex(IotaType.serialize(listIota), (int)Math.floor(delayIota.getDouble()), depth)
+            new QueuedHex(
+                listIota,
+                (int)Math.floor(delayIota.getDouble()),
+                depth
+            )
         );
 
         if (ogStackSize - stack.size() == 3)
-            stack.add(keyIota);
+            stack.add(key);
 
         return new OperationResult(
             img.copy(
-                List.copyOf(stack),
+                TreeList.from(stack),
                 img.getParenCount(),
                 img.getParenthesized(),
                 img.getEscapeNext(),
+                img.getSimulateNext(),
                 img.getOpsConsumed(),
-                img.getUserData()
+                img.getComponents()
             ).withUsedOp(),
             List.of(),
             cont,
-            HexEvalSounds.SPELL
+            HexEvalSounds.SPELL.get()
         );
     }
     
@@ -108,7 +110,7 @@ public class OpEnqueue implements Action {
 
         stack.push(key);
         return new PatternIota(EulerPathFinder.findAltDrawing(
-            HexPattern.fromAngles("qeqwqwqwqwqeqaweqqqqqwweeweweewqdwwewewwewweweww", HexDir.EAST),
+            HexPattern.fromAngleString("qeqwqwqwqwqeqaweqqqqqwweeweweewqdwwewewwewweweww", HexDir.EAST),
             seed
         ));
     }
