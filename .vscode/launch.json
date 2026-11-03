@@ -17,6 +17,18 @@
             "command": ".\\gradlew build"
         },
         {
+            "type": "node-terminal",
+            "name": "Run Fabric Client",
+            "request": "launch",
+            "command": ".\\gradlew fabric:runClient"
+        },
+        {
+            "type": "node-terminal",
+            "name": "Run NeoForge Client",
+            "request": "launch",
+            "command": ".\\gradlew neoforge:runClient"
+        },
+        {
             "type": "java",
             "name": "Current File",
             "request": "launch",

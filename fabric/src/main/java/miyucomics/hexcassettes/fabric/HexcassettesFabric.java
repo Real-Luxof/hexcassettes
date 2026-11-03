@@ -4,6 +4,7 @@ import at.petrak.hexcasting.common.lib.hex.HexActions;
 
 import static miyucomics.hexcassettes.Hexcassettes.id;
 import static miyucomics.hexcassettes.Hexcassettes.init;
+import static miyucomics.hexcassettes.Hexcassettes.LOGGER;
 
 import miyucomics.hexcassettes.inits.HexcassettesActions;
 
@@ -18,8 +19,10 @@ public final class HexcassettesFabric implements ModInitializer {
         // However, some things (like resources) may still be uninitialized.
         // Proceed with mild caution.
 
+		LOGGER.info("Knock knock!");
         // Run our common setup.
         init();
+		LOGGER.info("FABRIC!");
 
         HexcassettesActions.register((name, entry) -> Registry.register(
             HexActions.REGISTRY,

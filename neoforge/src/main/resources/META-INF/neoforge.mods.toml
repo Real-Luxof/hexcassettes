@@ -1,17 +1,18 @@
 modLoader = "javafml"
 loaderVersion = "[4,)"
-#issueTrackerURL = ""
-license = "Insert License Here"
+issueTrackerURL = "https://github.com/Real-Luxof/hexcassettes/issues"
+license = "MIT"
 
 [[mods]]
 modId = "hexcassettes"
 version = "${version}"
 displayName = "Hexcassettes"
-authors = "Me!"
+authors = "Miyucomics, Luxof (porter)"
 description = '''
 An addon for all your daemon and delaying needs!
-'''
-#logoFile = ""
+''' 
+iconFile = "assets/hexcassettes/icon.png"
+# logoFile = "assets/hexcassettes/icon.png"
 
 [[dependencies.hexcassettes]]
 modId = "neoforge"
@@ -37,7 +38,7 @@ side = "BOTH"
 [[dependencies.hexcassettes]]
 modId = "hexcasting"
 type = "required"
-versionRange = "[0.12.0-devel-pre-0,0.12.0]"
+versionRange = "[0.12.0,)"
 ordering = "AFTER"
 side = "BOTH"
 
