@@ -4,6 +4,7 @@ import at.petrak.hexcasting.api.casting.castables.ConstMediaAction;
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment;
 import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.api.casting.iota.IotaType;
+import at.petrak.hexcasting.api.casting.iota.ListIota;
 import at.petrak.hexcasting.api.casting.mishaps.Mishap;
 import at.petrak.hexcasting.api.casting.mishaps.MishapBadCaster;
 
@@ -19,8 +20,8 @@ public class OpBusy implements ConstMediaAction {
         if (!(env.getCastingEntity() instanceof PlayerEntityMinterface sp))
             throw new MishapBadCaster();
 
-        return sp.getCassetteState().hexes.keySet().stream()
+        return List.of(new ListIota(sp.getCassetteState().hexes.keySet().stream()
             .map(nbt -> IotaType.deserialize(nbt, env.getWorld()))
-            .toList();
+            .toList()));
     }
 }
