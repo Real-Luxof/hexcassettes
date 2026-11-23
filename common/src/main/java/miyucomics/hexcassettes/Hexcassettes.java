@@ -1,5 +1,6 @@
 package miyucomics.hexcassettes;
 
+import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.event.events.common.TickEvent;
 //import dev.architectury.utils.Env;
 //import dev.architectury.utils.EnvExecutor;
@@ -34,6 +35,9 @@ public final class Hexcassettes {
             server.getPlayerManager().getPlayerList().forEach(
                 sp -> ((PlayerEntityMinterface)sp).getCassetteState().tick(sp)
             );
+        });
+        PlayerEvent.PLAYER_CLONE.register((oldPlayer, newPlayer, wonGame) -> {
+            ((PlayerEntityMinterface)newPlayer).getCassetteState().owned = ((PlayerEntityMinterface)oldPlayer).getCassetteState().owned;
         });
     }
 
