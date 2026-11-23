@@ -1,5 +1,7 @@
 package miyucomics.hexcassettes;
 
+import at.petrak.hexcasting.common.lib.HexCreativeTabs;
+
 import miyucomics.hexcassettes.data.CassetteState;
 import miyucomics.hexcassettes.inits.HexcassettesCriterions;
 import miyucomics.hexcassettes.inits.HexcassettesSounds;
@@ -21,6 +23,7 @@ public class CassetteItem extends Item {
                 .maxCount(1)
                 .rarity(Rarity.UNCOMMON)
                 .food(new FoodComponent.Builder().alwaysEdible().build())
+                .arch$tab(HexCreativeTabs.HEX)
         );
     }
     
